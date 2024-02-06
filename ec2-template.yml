@@ -1,0 +1,153 @@
+---
+Metadata:
+  TemplateId: "arn:aws:cloudformation:ap-northeast-1:298143980701:generatedTemplate/9e770dea-bfb5-4053-bc34-c6fff1802099"
+Resources:
+  EC2Volume00vol0b37dfef8b526f327003aHVr:
+    UpdateReplacePolicy: "Delete"
+    Type: "AWS::EC2::Volume"
+    DeletionPolicy: "Delete"
+    Properties:
+      MultiAttachEnabled: false
+      SnapshotId: "snap-09d9ea33312bc8e69"
+      VolumeType: "gp3"
+      Encrypted: false
+      Size: 8
+      AutoEnableIO: true
+      AvailabilityZone: "ap-northeast-1a"
+      Throughput: 125
+      Iops: 3000
+      Tags: []
+  EC2Instance00i0dec3e620c6c6666e00XrLi6:
+    UpdateReplacePolicy: "Delete"
+    Type: "AWS::EC2::Instance"
+    DeletionPolicy: "Delete"
+    Properties:
+      Tenancy: "default"
+      SecurityGroups:
+        - "default"
+      PrivateIpAddress: "172.31.40.178"
+      InstanceInitiatedShutdownBehavior: "stop"
+      CpuOptions:
+        ThreadsPerCore: 1
+        CoreCount: 1
+      BlockDeviceMappings:
+        - Ebs:
+            SnapshotId: "snap-09d9ea33312bc8e69"
+            VolumeType: "gp3"
+            Iops: 3000
+            VolumeSize: 8
+            Encrypted: false
+            DeleteOnTermination: true
+          DeviceName: "/dev/xvda"
+      AvailabilityZone: "ap-northeast-1a"
+      PrivateDnsNameOptions:
+        EnableResourceNameDnsARecord: true
+        HostnameType: "ip-name"
+        EnableResourceNameDnsAAAARecord: false
+      SubnetId:
+        Ref: "EC2Subnet00subnet075dee19cf0576bee00GkKoi"
+      SecurityGroupIds:
+        - "sg-0f7204b5cc73cdaf5"
+      EbsOptimized: false
+      DisableApiTermination: false
+      KeyName: "ssh-key"
+      SourceDestCheck: true
+      PlacementGroupName: ""
+      NetworkInterfaces:
+        - PrivateIpAddresses:
+            - PrivateIpAddress: "172.31.40.178"
+              Primary: true
+          SecondaryPrivateIpAddressCount: 0
+          DeviceIndex: "0"
+          GroupSet:
+            - Ref: "EC2SecurityGroup00sg0f7204b5cc73cdaf500VFELI"
+          Ipv6Addresses: []
+          SubnetId:
+            Ref: "EC2Subnet00subnet075dee19cf0576bee00GkKoi"
+          AssociatePublicIpAddress: true
+          NetworkInterfaceId:
+            Ref: "EC2NetworkInterface00eni0a359ae682f101c9e00BRdO5"
+          DeleteOnTermination: true
+      ImageId: "ami-0b193da66bc27147b"
+      InstanceType: "t2.micro"
+      Monitoring: false
+      Tags:
+        - Value: "test-01"
+          Key: "Name"
+      CreditSpecification:
+        CPUCredits: "standard"
+  EC2SecurityGroup00sg0f7204b5cc73cdaf500VFELI:
+    UpdateReplacePolicy: "Delete"
+    Type: "AWS::EC2::SecurityGroup"
+    DeletionPolicy: "Delete"
+    Properties:
+      GroupDescription: "default VPC security group"
+      GroupName: "default"
+      VpcId:
+        Ref: "EC2VPC00vpc0af1d83356a4fbad7000pDm5"
+      SecurityGroupIngress:
+        - SourceSecurityGroupId:
+            Fn::GetAtt:
+              - "EC2VPC00vpc0af1d83356a4fbad7000pDm5"
+              - "DefaultSecurityGroup"
+          IpProtocol: "-1"
+          SourceSecurityGroupOwnerId: "298143980701"
+      SecurityGroupEgress:
+        - CidrIp: "0.0.0.0/0"
+          IpProtocol: "-1"
+  EC2Subnet00subnet075dee19cf0576bee00GkKoi:
+    UpdateReplacePolicy: "Delete"
+    Type: "AWS::EC2::Subnet"
+    DeletionPolicy: "Delete"
+    Properties:
+      VpcId: "vpc-0af1d83356a4fbad7"
+      MapPublicIpOnLaunch: true
+      EnableDns64: false
+      AvailabilityZoneId: "apne1-az4"
+      PrivateDnsNameOptionsOnLaunch:
+        EnableResourceNameDnsARecord: false
+        HostnameType: "ip-name"
+        EnableResourceNameDnsAAAARecord: false
+      CidrBlock: "172.31.32.0/20"
+      Ipv6Native: false
+      Tags: []
+  EC2NetworkInterface00eni0a359ae682f101c9e00BRdO5:
+    UpdateReplacePolicy: "Delete"
+    Type: "AWS::EC2::NetworkInterface"
+    DeletionPolicy: "Delete"
+    Properties:
+      Description: ""
+      PrivateIpAddress: "172.31.40.178"
+      PrivateIpAddresses:
+        - PrivateIpAddress: "172.31.40.178"
+          Primary: true
+      SecondaryPrivateIpAddressCount: 0
+      Ipv6PrefixCount: 0
+      Ipv4Prefixes: []
+      Ipv4PrefixCount: 0
+      GroupSet:
+        - "sg-0f7204b5cc73cdaf5"
+      Ipv6Prefixes: []
+      SubnetId:
+        Ref: "EC2Subnet00subnet075dee19cf0576bee00GkKoi"
+      SourceDestCheck: true
+      InterfaceType: "interface"
+      Tags: []
+  EC2VPC00vpc0af1d83356a4fbad7000pDm5:
+    UpdateReplacePolicy: "Delete"
+    Type: "AWS::EC2::VPC"
+    DeletionPolicy: "Delete"
+    Properties:
+      CidrBlock: "172.31.0.0/16"
+      EnableDnsSupport: true
+      InstanceTenancy: "default"
+      EnableDnsHostnames: true
+      Tags: []
+  EC2VolumeAttachment00vol0b37dfef8b526f32700ZlTBN:
+    UpdateReplacePolicy: "Delete"
+    Type: "AWS::EC2::VolumeAttachment"
+    DeletionPolicy: "Delete"
+    Properties:
+      InstanceId: "i-0dec3e620c6c6666e"
+      VolumeId: "vol-0b37dfef8b526f327"
+      Device: "/dev/xvda"
